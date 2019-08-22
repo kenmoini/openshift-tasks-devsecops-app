@@ -5,18 +5,13 @@
         <username>deployment</username>
         <password>deployment123</password>
      </server>
-     <server>
-        <id>nexus3</id>
-        <username>admin</username>
-        <password>admin123</password>
-     </server>
   </servers>
   <mirrors>
     <mirror>
       <!--This sends everything else to /public -->
       <id>nexus</id>
       <mirrorOf>*</mirrorOf>
-      <url>http://nexus:8081/repository/maven-all-public/</url>
+      <url>http://nexus:8081/content/groups/public/</url>
     </mirror>
   </mirrors>
   <profiles>
