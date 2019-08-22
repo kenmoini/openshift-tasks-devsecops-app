@@ -1,7 +1,9 @@
 def version, mvnCmd = "mvn -s configuration/cicd-settings-nexus3.xml"
 pipeline {
   agent {
-    label 'maven'
+    node {
+      label 'maven'
+    }
   }
   stages {
     stage('Build App') {
