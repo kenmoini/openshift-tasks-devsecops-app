@@ -6,9 +6,14 @@ pipeline {
     }
   }
   stages {
+    stage('Pre-build triggers') {
+        steps {
+            rocketSend attachments: [[$class: 'MessageAttachment', text: "[${currentBuild.fullDisplayName}] Build Started - ${currentBuild.absoluteUrl}", title: 'Pipeline Build Starting', color: 'grey']], channel: 'devops-team', avatar: 'https://itisatechiesworld.files.wordpress.com/2015/01/cool-jenkins2x3.png', message: "OpenShift Pipeline - ${currentBuild.projectName}", rawMessage: true
+        }
+    }
     stage('Build App') {
       steps {
-        git branch: 'eap-7', url: 'http://gogs:3000/gogs/openshift-tasks.git'
+        git branch: 'eap-7', url: 'https://github.com/kenmoini/openshift-tasks-devsecops-app.git'
         script {
             def pom = readMavenPom file: 'pom.xml'
             version = pom.version
@@ -133,4 +138,16 @@ pipeline {
       }
     }
   }
+  post {
+      aborted {
+        rocketSend attachments: [[$class: 'MessageAttachment', text: "[${currentBuild.fullDisplayName}] Build Aborted! - ${currentBuild.absoluteUrl}", title: 'Manual Abort', color: 'red']], channel: 'devops-team', avatar: 'https://jenkins.io/images/logos/fire/fire.png', message: "OpenShift Pipeline - ${currentBuild.projectName}", rawMessage: true
+      }
+      failure {
+        rocketSend attachments: [[$class: 'MessageAttachment', text: "[${currentBuild.fullDisplayName}] Build Failed! - ${currentBuild.absoluteUrl}", title: 'General Failure', color: 'red']], channel: 'devops-team', avatar: 'https://jenkins.io/images/logos/fire/fire.png', message: "OpenShift Pipeline - ${currentBuild.projectName}", rawMessage: true
+      }
+      success {
+        rocketSend attachments: [[$class: 'MessageAttachment', text: "[${currentBuild.fullDisplayName}] Build finished successfully! - ${currentBuild.absoluteUrl}", title: 'Successfully built', color: 'green']], channel: 'devops-team', avatar: 'https://itisatechiesworld.files.wordpress.com/2015/01/cool-jenkins2x3.png', message: "OpenShift Pipeline - ${currentBuild.projectName}", rawMessage: true
+      }
+  }
+  
 }
