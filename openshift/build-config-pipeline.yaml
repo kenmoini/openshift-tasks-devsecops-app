@@ -9,6 +9,11 @@ spec:
         git:
             ref: master
             uri: https://github.com/kenmoini/openshift-tasks-devsecops-app.git
+    env:
+        - name: DEV_PROJECT
+          value: dso-webinar-devtest
+        - name: STAGE_PROJECT
+          value: dso-webinar-stage
     strategy:
         jenkinsPipelineStrategy:
             jenkinsfilePath: Jenkinsfile
