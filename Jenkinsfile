@@ -13,7 +13,7 @@ pipeline {
     }
     stage('Build App') {
       steps {
-        git branch: 'eap-7', url: 'https://github.com/kenmoini/openshift-tasks-devsecops-app.git'
+        git branch: 'master', url: 'https://github.com/kenmoini/openshift-tasks-devsecops-app.git'
         script {
             def pom = readMavenPom file: 'pom.xml'
             version = pom.version
