@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: BuildConfig
+metadata:
+    labels:
+        app: tasks-app-dso-pipeline
+    name: tasks-app-dso-pipeline
+spec:
+    source:
+        git:
+            ref: master
+            uri: https://github.com/kenmoini/openshift-tasks-devsecops-app.git
+    strategy:
+        jenkinsPipelineStrategy:
+            jenkinsfilePath: Jenkinsfile
+        type: JenkinsPipeline
+    triggers:
+        - github:
+            secret: secretSETSOMETHING
+          type: GitHub
+        - gitlab:
+            secret: secretNOTTHISVALUE
+          type: GitLab
+        - generic:
+            secret: secretCHANGEME
+          type: Generic
+        - bitbucket:
+            secret: secretCHANGETHISTOO
+          type: Bitbucket
